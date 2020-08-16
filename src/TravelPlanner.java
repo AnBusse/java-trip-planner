@@ -21,6 +21,7 @@ public class TravelPlanner {
         doTimeAndBudget(input, destination);
         doTimeConversion(input);
         doMetricConversion(input, destination);
+        doDistance(input);
     }
 
     public static void doTimeAndBudget(Scanner input, String destination) {
@@ -56,5 +57,39 @@ public class TravelPlanner {
         System.out.println("How big, in square kilometers, is " + destination + "?");
         double inMiles = ((int)((input.nextDouble() * 0.38610) * 100)) / 100.0;
         System.out.println("That is " + inMiles + " in square miles!");
+    }
+
+    static double haversine(double lat1, double lon1, double lat2, double lon2)
+    {
+        // distance between latitudes and longitudes
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+
+        // convert to radians
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // apply formulae
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
+                Math.pow(Math.sin(dLon / 2), 2) *
+                        Math.cos(lat1) *
+                        Math.cos(lat2);
+        double rad = 6371;
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return ((int)(rad * c) / 100.0);
+    }
+
+    public static void doDistance (Scanner input) {
+        System.out.println("Let's calculate how far away you are from home.");
+        System.out.println("Whats the latitude of your home?");
+        double latHome = input.nextDouble();
+        System.out.println("Whats the longitude of your home?");
+        double longHome = input.nextDouble();
+        System.out.println("Whats the latitude of your destination?");
+        double latDestination = input.nextDouble();
+        System.out.println("Whats the longitude of your destination?");
+        double longDestination = input.nextDouble();
+        double distance = haversine(latHome, longHome, latDestination, longDestination);
+        System.out.println("Your destination is " + distance + "km away from home!");
     }
 }
