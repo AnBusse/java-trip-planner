@@ -34,7 +34,7 @@ public class TravelPlanner {
         double rate = input.nextDouble();
         int hours = days * 24;
         int minutes = hours * 60;
-        double moneyPerDay = budget / (double) days;
+        double moneyPerDay = ((int)(budget / (double) days) * 100) / 100.0;
         double budgetInForeignCurrency = budget * rate;
 
         double dailyBudgetInForeignCurrency = budgetInForeignCurrency / days;
@@ -46,14 +46,15 @@ public class TravelPlanner {
     public static void doTimeConversion(Scanner input) {
         System.out.println("What is the time difference, in hours, between your home and destination?");
         int timeDiff = input.nextInt();
-        int midnightDiff = 24 % timeDiff;
-        int noonDiff = 12 % timeDiff;
-        System.out.println("When it is midnight at your place, it will be " + midnightDiff + ":00, and " + noonDiff + ":00 when it is noon at home.");
+        int diffCalc = 24 + timeDiff;
+        int midnightDiff = (diffCalc > 24) ? (diffCalc - 24) : (24 + timeDiff);
+        int noonDiff = 12 + timeDiff;
+        System.out.println("When it is midnight at your place, it will be " + midnightDiff + ":00 at midnight your place, and " + noonDiff + ":00 when it is noon at home.");
     }
 
     public static void doMetricConversion(Scanner input, String destination) {
         System.out.println("How big, in square kilometers, is " + destination + "?");
-        double inMiles =  input.nextDouble() * 0.38610;
+        double inMiles = ((int)((input.nextDouble() * 0.38610) * 100)) / 100.0;
         System.out.println("That is " + inMiles + " in square miles!");
     }
 }
